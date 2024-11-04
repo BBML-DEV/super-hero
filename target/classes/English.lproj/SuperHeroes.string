@@ -1,0 +1,14 @@
+{
+"ValidationTemplate.SuperHero.name.NullPropertyException" = "You must input a name";
+"ValidationTemplate.SuperHero.name.Duplicated" = "The name @@object.name@@ already exists";
+
+"ValidationTemplate.Ability.description.NullPropertyException" = "You must input a name";
+"ValidationTemplate.Ability.description.Duplicated" = "The name @@object.description@@ already exists";
+
+"deleteBtn" = "Delete";
+"lang" = "Portuguese";
+"Duplicated names not allowed" = "Duplicated names not allowed";
+
+"searchTextHero" = "Hero";
+"searchTextAbility" = "Ability";
+}

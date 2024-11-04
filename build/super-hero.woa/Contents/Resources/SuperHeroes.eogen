@@ -1,0 +1,11 @@
+ -destination src/main/java \
+ -extension java \
+ -java \
+ -javaTemplate _Entity.java \
+ -model src/main/resources/SuperHeroes.eomodeld \
+ -packagedirs \
+ -subclassDestination src/main/java \
+ -subclassJavaTemplate Entity.java \
+ -templatedir src/main/templates \
+ -verbose \
+ -loadModelGroup

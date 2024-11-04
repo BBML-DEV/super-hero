@@ -1,0 +1,28 @@
+{
+    attributes = (
+        {columnName = description; name = description; prototypeName = longText; }, 
+        {allowsNull = N; name = id; prototypeName = id; }, 
+        {
+            columnName = strength; 
+            name = strength; 
+            prototypeName = javaEnum; 
+            valueClassName = "br.com.doit.superheroes.model.Strength"; 
+        }
+    ); 
+    attributesUsedForLocking = (id); 
+    className = "br.com.doit.superheroes.model.Ability"; 
+    classProperties = (description, strength, superHeros); 
+    externalName = ability; 
+    fetchSpecificationDictionary = {}; 
+    name = Ability; 
+    primaryKeyAttributes = (id); 
+    relationships = (
+        {
+            destination = SuperHero; 
+            isToMany = Y; 
+            joinSemantic = EOInnerJoin; 
+            joins = ({destinationAttribute = abilityID; sourceAttribute = id; }); 
+            name = superHeros; 
+        }
+    ); 
+}

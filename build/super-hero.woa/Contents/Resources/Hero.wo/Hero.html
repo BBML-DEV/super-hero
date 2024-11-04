@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+	<title>Super Heroes</title>
+
+</head>
+	<body>
+		<wo:WOComponentContent />
+			<div class="container">
+				<wo:WOForm>
+				  
+		                <h2 class="display-4">Heroes List</h2>
+		                
+		                 <div class="input-group-prepend py-2" >
+						    <span class="input-group-text" id="inputGroup-sizing-default">
+						    	Hero name
+						    	
+								<i class="fa-solid fa-mask ml-2"></i>						    
+							</span>
+						    
+						      <wo:textField value="$heroName" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" />
+						  </div>
+						  
+						  <div class="input-group-prepend py-2">
+						    <span class="input-group-text" id="inputGroup-sizing-default">
+						    	Abilities List 
+						    	
+						    	<i class="fa-solid fa-list ml-2"></i>
+						    </span>
+						    
+		              		<wo:WOPopUpButton  list = "$abilitiess" selection = "$ability" item="$ability" displayString = "$ability.description" noSelectionString = "Open this select" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"/>
+						  </div>
+						  
+						  <div class="input-group-prepend py-2" >
+						    <span class="input-group-text" id="inputGroup-sizing-default">
+						    	Search Hero 
+						    	
+						    	<i class="fa-solid fa-magnifying-glass ml-2"></i>
+						    </span>
+						    
+								<wo:textField value="$filterHeroName" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default" />
+						  </div>
+							
+							
+						<div>
+			              <wo:submitButton value="Save a new hero" action="$saveHero"  type="submit" class="btn btn-success" />
+							<wo:WOHyperlink action = "$goToMainPage" class="btn btn-dark"> Return to main page </wo:WOHyperLink>
+							 <wo:submitButton value="Search Hero" action="$updateHeroesFilteredList"  type="submit" class="btn btn-warning" />	
+						</div>
+
+			              
+			              <ul id="superpowersList"></ul>
+		          
+				</wo:WOForm>
+				
+				
+				<wo:if condition="$hasSuperHeroes"> 
+					<div class="table-responsive">
+					    <table class="table project-list-table table-nowrap align-middle table-borderless">
+					        <thead>
+					            <tr>
+					                <th scope="col">Hero name</th>
+					                <th scope="col">Abilities</th>
+					                <th scope="col"> Strength </th>
+					                <th scope="col" style="width: 200px;">Action</th>
+					            </tr>
+					        </thead>
+					        <tbody>
+					        	
+					        	
+					        	<wo:if condition="$hasFilteredHeroes">
+						        	<wo:repetition list="$getHeroesFilteredList" item="$superHeroesItem">
+						                <tr>
+						                    <td>
+						                        <wo:string value="$superHeroesItem.name"/>
+						                    </td>
+						                    <td>
+						                        <wo:string value="$superHeroesItem.ability.description"/>
+						                    </td>
+						                   	<td>
+						                        <wo:string value="$superHeroesItem.ability.strength"/>
+						                    </td>
+						                    <td>
+						                        <ul class="list-inline mb-0">
+						                            <li class="list-inline-item">
+						                            	<wo:link action = "$editHero">
+						                            	   <i class="fa-solid fa-pen-to-square text-info"></i>
+						                            	</wo:link>
+						                            </li>
+						                            <li class="list-inline-item"> 
+						                            	<wo:link action="$deleteHero">
+						                            		<i class="fa-solid fa-trash text-danger"></i>
+						                            	</wo:link>
+						                            </li>
+						                        </ul>
+						                    </td>
+						                </tr>
+						            </wo:repetition>
+					        	</wo:if>
+					        	
+					        	<wo:else>
+						        	<wo:repetition list="$superHeroes" item="$superHeroesItem">
+						                <tr>
+						                    <td>
+						                        <wo:string value="$superHeroesItem.name"/>
+						                    </td>
+						                    <td>
+						                        <wo:string value="$superHeroesItem.ability.description"/>
+						                    </td>
+						                   	<td>
+						                        <wo:string value="$superHeroesItem.ability.strength"/>
+						                    </td>
+						                    <td>
+						                        <ul class="list-inline mb-0">
+						                            <li class="list-inline-item">
+						                            	<wo:link action = "$editHero">
+						                            	   <i class="fa-solid fa-pen-to-square text-info"></i>
+						                            	</wo:link>
+						                            </li>
+						                            <li class="list-inline-item"> 
+						                            	<wo:link action="$deleteHero">
+						                            		<i class="fa-solid fa-trash text-danger"></i>
+						                            	</wo:link>
+						                            </li>
+						                        </ul>
+						                    </td>
+						                </tr>
+						            </wo:repetition>
+					        	</wo:else>
+					        
+					        </tbody>
+					    </table>
+					</div>
+				</wo:if>
+				
+				
+				
+				
+				<wo:else>
+					<div class="alert alert-danger" role="alert">
+						<p>
+							List without any Hero
+							<i class="fa-solid fa-circle-exclamation"></i>
+						</p>
+					</div>
+				</wo:else>
+				
+				
+				
+				<!-- Modal HTML structure (Bootstrap) -->
+					<div id="errorModal" class="modal" tabindex="-1" role="dialog">
+					    <div class="modal-dialog" role="document">
+					        <div class="modal-content">
+					            <div class="modal-header">
+					                <h5 class="modal-title">Error
+					                	<i class="fa-solid fa-triangle-exclamation fa-beat" style="color: #f53d3d;"></i>
+					                </h5>
+					                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					                    <span aria-hidden="true">&times;</span>
+					                </button>
+					            </div>
+					            <div class="modal-body">
+					                <p class="alert alert-danger">  
+					                	<wo:string value="$getErrorMesage"/>
+					                </p>
+					            </div>
+					            <div class="modal-footer">
+					                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+					            </div>
+					        </div>
+					    </div>
+					</div>
+					
+					<!-- Modal HTML structure (Bootstrap) -->
+					<div id="errorModalSameName" class="modal" tabindex="-1" role="dialog">
+					    <div class="modal-dialog" role="document">
+					        <div class="modal-content">
+					            <div class="modal-header">
+					                <h5 class="modal-title">Error
+					                	<i class="fa-solid fa-triangle-exclamation fa-beat" style="color: #f53d3d;"></i>
+					                </h5>
+					                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					                    <span aria-hidden="true">&times;</span>
+					                </button>
+					            </div>
+					            <div class="modal-body">
+					                <p class="alert alert-danger">  
+					                	<wo:string value="$getThisHeroNameAlreadyExistsMessage"/>
+					                </p>
+					            </div>
+					            <div class="modal-footer">
+					                <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+					            </div>
+					        </div>
+					    </div>
+					</div>
+					
+					
+					
+					<wo:if condition="$getIsErrorMessage">
+					<script>
+						document.addEventListener('DOMContentLoaded', function() {
+							var modal = document.getElementById('errorModal');
+							
+								if (modal) {
+									var bootstrapModal = new bootstrap.Modal(modal);
+									bootstrapModal.show();
+								}
+								
+							});
+					</script>
+        			</wo:if>
+        			
+        			
+        			<wo:if condition="$getThisHeroNameAlreadyExistsError">
+					<script>
+						document.addEventListener('DOMContentLoaded', function() {
+							var modal = document.getElementById('errorModalSameName');
+							
+								if (modal) {
+									var bootstrapModal = new bootstrap.Modal(modal);
+									bootstrapModal.show();
+								}
+								
+							});
+					</script>
+        			</wo:if>
+			</div>	
+			
+
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+            
+	</body>
+</html>
